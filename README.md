@@ -259,7 +259,9 @@ Reboot and test your configuration.
 
 ## Use ykfde with encryptssh
 
-If you like to run encryptssh (or any other hook to make decrypting your device possible) after ykfde run into a timeout, do the following:
+You can configure ykfde to skip its password-fallback prompt. This allows the boot process to proceed to the next hook in the sequence (e.g., `encryptssh`) after the YubiKey polling loop finishes without a key being presented.
+
+Here's how you do it with encryptssh:
 
 * Follow the installation guide for [encryptssh](https://wiki.archlinux.org/title/Dm-crypt/Specialties#Busybox_based_initramfs_\(built_with_mkinitcpio\))
 * Edit `/etc/mkinitcpio.conf` and add `ykfde` **before** `encryptssh` in the `HOOKS` array.
