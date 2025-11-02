@@ -15,7 +15,7 @@ YKFDE_CHALLENGE_SLOT="2"
 YKFDE_CHALLENGE=""
 YKFDE_CHALLENGE_PASSWORD_NEEDED=""
 YKFDE_SLEEP_AFTER_SUCCESSFUL_CRYPTSETUP=""
-YKFDE_SKIP_PASSWORD_PROMPT="0"
+YKFDE_SKIP_PASSWORD_PROMPT=""
 YKFDE_USE_PLYMOUTH=""
 
 message() {
@@ -73,7 +73,7 @@ EOF
   [ -z "$YKFDE_LUKS_DEV" ] && YKFDE_LUKS_DEV="/dev/disk/by-uuid/$YKFDE_DISK_UUID"
   [ "$YKFDE_CRYPTSETUP_TRIALS" -lt 1 ] && YKFDE_CRYPTSETUP_TRIALS="5"
   [ "$YKFDE_CHALLENGE_SLOT" -lt 1 ] || [ "$YKFDE_CHALLENGE_SLOT" -gt 2 ] && YKFDE_CHALLENGE_SLOT="2"
-  [ "$YKFDE_SKIP_PASSWORD_PROMPT" -ne 1 ] && YKFDE_SKIP_PASSWORD_PROMPT="0"
+  [ "$YKFDE_SKIP_PASSWORD_PROMPT" -ne 1 ] && YKFDE_SKIP_PASSWORD_PROMPT=""
 
   [ -e "$YKFDE_LUKS_DEV" ] || {
     ykfde_err 004 "YKFDE cannot find LUKS device '$YKFDE_LUKS_DEV'.\\nPlease check YKFDE_DISK_UUID ($YKFDE_DISK_UUID) and/or YKFDE_LUKS_DEV variable(s) in '$YKFDE_CONFIG_FILE'."
@@ -133,9 +133,9 @@ ykfde_do_it() {
       message " > Passphrase needed to unlock device."
     fi
 
-    if [ "$YKFDE_SKIP_PASSWORD_PROMPT" -eq 1 ]; then
-      [ "$DBG" ] && message " > Skipping password promp; running the next module..."
-      return 20
+    if [ -z "$YKFDE_CHALLENGE_PASSWORD_NEEDED" ] && [ "$YKFDE_SKIP_PASSWORD_PROMPT" -eq 1 ]; then
+        [ "$DBG" ] && message " > Skipping password promp; running the next module..."
+        return 20
     fi
 
     printf "   Enter passphrase: "
