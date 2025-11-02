@@ -15,7 +15,7 @@ YKFDE_CHALLENGE_SLOT="2"
 YKFDE_CHALLENGE=""
 YKFDE_CHALLENGE_PASSWORD_NEEDED=""
 YKFDE_SLEEP_AFTER_SUCCESSFUL_CRYPTSETUP=""
-YKFDE_SKIP_PASSWORD_PROMPT=""
+YKFDE_SKIP_PASSWORD_PROMPT="0"
 YKFDE_USE_PLYMOUTH=""
 
 message() {
@@ -136,7 +136,7 @@ ykfde_do_it() {
       message " > Passphrase needed to unlock device."
     fi
 
-    if [ -z "$YKFDE_CHALLENGE_PASSWORD_NEEDED" ] && [ "$YKFDE_SKIP_PASSWORD_PROMPT" -eq 1 ]; then
+    if [ "$YKFDE_CHALLENGE" ] && [ "$YKFDE_SKIP_PASSWORD_PROMPT" -eq 1 ]; then
         [ "$DBG" ] && message " > Skipping password promp; running the next module..."
         return 20
     fi
