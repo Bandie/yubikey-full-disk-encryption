@@ -1,5 +1,5 @@
 install: reinstall
-	install -v -b -Dm644 src/ykfde.conf "$(DESTDIR)/etc/ykfde.conf"
+	install -v -b -Dm600 src/ykfde.conf "$(DESTDIR)/etc/ykfde.conf"
 
 reinstall:
 	install -Dm644 src/hooks/ykfde "$(DESTDIR)/usr/lib/initcpio/hooks/ykfde"
