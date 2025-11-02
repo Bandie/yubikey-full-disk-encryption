@@ -73,7 +73,7 @@ EOF
   [ -z "$YKFDE_LUKS_DEV" ] && YKFDE_LUKS_DEV="/dev/disk/by-uuid/$YKFDE_DISK_UUID"
   [ "$YKFDE_CRYPTSETUP_TRIALS" -lt 1 ] && YKFDE_CRYPTSETUP_TRIALS="5"
   [ "$YKFDE_CHALLENGE_SLOT" -lt 1 ] || [ "$YKFDE_CHALLENGE_SLOT" -gt 2 ] && YKFDE_CHALLENGE_SLOT="2"
-  [ "$YKFDE_SKIP_PASSWORD_PROMPT" -ne 1 ] && YKFDE_SKIP_PASSWORD_PROMPT=""
+  [ "$YKFDE_SKIP_PASSWORD_PROMPT" -ne 1 ] && YKFDE_SKIP_PASSWORD_PROMPT="0"
 
   [ -e "$YKFDE_LUKS_DEV" ] || {
     ykfde_err 004 "YKFDE cannot find LUKS device '$YKFDE_LUKS_DEV'.\\nPlease check YKFDE_DISK_UUID ($YKFDE_DISK_UUID) and/or YKFDE_LUKS_DEV variable(s) in '$YKFDE_CONFIG_FILE'."
@@ -128,7 +128,7 @@ ykfde_do_it() {
   if [ -z "$_ykfde_passphrase" ]; then
     if [ "$YKFDE_CHALLENGE" ] || [ "$YKFDE_CHALLENGE_PASSWORD_NEEDED" ]; then
       message " > Challenge-Response failed."
-      if [ -z "$YKFDE_SKIP_PASSWORD_PROMPT" ]; then
+      if [ "$YKFDE_SKIP_PASSWORD_PROMPT" -eq 0 ]; then
         message "   Falling back to manual passphrase."
         [ "$trial_nr" -le "$YKFDE_CRYPTSETUP_TRIALS" ] && message "   Press ENTER to skip and retry Challenge-Response."
       fi
