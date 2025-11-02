@@ -127,8 +127,11 @@ ykfde_do_it() {
 
   if [ -z "$_ykfde_passphrase" ]; then
     if [ "$YKFDE_CHALLENGE" ] || [ "$YKFDE_CHALLENGE_PASSWORD_NEEDED" ]; then
-      message " > Challenge-Response failed. Falling back to manual passphrase."
-      [ "$trial_nr" -le "$YKFDE_CRYPTSETUP_TRIALS" ] && message "   Press ENTER to skip and retry Challenge-Response."
+      message " > Challenge-Response failed."
+      if [ -z "$YKFDE_SKIP_PASSWORD_PROMPT" ]; then
+        message "   Falling back to manual passphrase."
+        [ "$trial_nr" -le "$YKFDE_CRYPTSETUP_TRIALS" ] && message "   Press ENTER to skip and retry Challenge-Response."
+      fi
     else
       message " > Passphrase needed to unlock device."
     fi
